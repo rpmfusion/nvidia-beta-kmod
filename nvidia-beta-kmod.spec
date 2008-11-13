@@ -8,7 +8,7 @@
 Name:          nvidia-beta-kmod
 Version:       177.61.02
 # Taken over by kmodtool
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       NVIDIA display driver kernel module
 Group:         System Environment/Kernel
 License:       Redistributable, no modification permitted
@@ -22,6 +22,9 @@ Source0:       http://rpms.kwizart.net/fedora/SOURCES/nvidia-kmod-data-%{version
 #Source0:       http://www.diffingo.com/downloads/livna/kmod-data/nvidia-kmod-data-%{version}.tar.bz2
 # </switch me>
 
+Source11:      nvidia-kmodtool-excludekernel-filterfile
+Patch0:        nvidia-rawhide-noxen-x64.patch
+Patch1:        nvidia-rawhide-noxen-x86.patch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # needed for plague to make sure it builds for i586 and i686
@@ -31,7 +34,7 @@ ExclusiveArch:  i686 x86_64
 BuildRequires:  %{_bindir}/kmodtool
 %{!?kernels:BuildRequires: buildsys-build-rpmfusion-kerneldevpkgs-%{?buildforkernels:%{buildforkernels}}%{!?buildforkernels:current}-%{_target_cpu} }
 # kmodtool does its magic here
-%{expand:%(kmodtool --target %{_target_cpu} --repo rpmfusion --kmodname %{name} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
+%{expand:%(kmodtool --target %{_target_cpu} --repo rpmfusion --kmodname %{name} --filterfile %{SOURCE11} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
 
 
 %description
@@ -41,7 +44,7 @@ The nvidia %{version} display driver kernel module for kernel %{kversion}.
 # error out if there was something wrong with kmodtool
 %{?kmodtool_check}
 # print kmodtool output for debugging purposes:
-kmodtool  --target %{_target_cpu}  --repo rpmfusion --kmodname %{name} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null
+kmodtool  --target %{_target_cpu}  --repo rpmfusion --kmodname %{name} --filterfile %{SOURCE11} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null
 %setup -q -c -T -a 0
 
 # patch loop
@@ -52,6 +55,11 @@ kmodtool  --target %{_target_cpu}  --repo rpmfusion --kmodname %{name} %{?buildf
 #    popd
 #done
 
+pushd nvidiapkg-x64
+%patch0 -b .noxen
+popd;pushd nvidiapkg-x86
+%patch1 -b .noxen
+popd
 
 for kernel_version  in %{?kernel_versions} ; do
 %ifarch %{ix86}
@@ -92,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 13 2008 kwizart < kwizart at gmail.com > - 177.61.02-2
+- Fix built for F-9
+
 * Thu Oct 30 2008 kwizart < kwizart at gmail.com > - 177.61.02-1
 - Rename to nvidia-beta 
 - Update to 177.61.02 (beta with opengl 3.0 support).

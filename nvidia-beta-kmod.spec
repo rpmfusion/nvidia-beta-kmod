@@ -22,8 +22,6 @@ Source0:       http://rpms.kwizart.net/fedora/SOURCES/nvidia-kmod-data-%{version
 #Source0:       http://www.diffingo.com/downloads/livna/kmod-data/nvidia-kmod-data-%{version}.tar.bz2
 # </switch me>
 
-Patch0:        nvidia-rawhide-noxen-x64.patch
-Patch1:        nvidia-rawhide-noxen-x86.patch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # needed for plague to make sure it builds for i586 and i686
@@ -53,12 +51,6 @@ kmodtool  --target %{_target_cpu}  --repo rpmfusion --kmodname %{name} %{?buildf
 # empty
 #    popd
 #done
-
-pushd nvidiapkg-x64
-%patch0 -b .noxen
-popd;pushd nvidiapkg-x86
-%patch1 -b .noxen
-popd
 
 for kernel_version  in %{?kernel_versions} ; do
 %ifarch %{ix86}

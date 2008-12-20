@@ -8,7 +8,7 @@
 Name:          nvidia-beta-kmod
 Version:       177.61.02
 # Taken over by kmodtool
-Release:       2%{?dist}.3
+Release:       2%{?dist}.4
 Summary:       NVIDIA display driver kernel module
 Group:         System Environment/Kernel
 License:       Redistributable, no modification permitted
@@ -100,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Dec 20 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 177.61.02-2.4
+- rebuild for latest Fedora kernel;
+
 * Tue Dec 02 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 177.61.02-2.3
 - rebuild for latest Fedora kernel;
 

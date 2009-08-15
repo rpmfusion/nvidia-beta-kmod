@@ -8,7 +8,7 @@
 Name:          nvidia-beta-kmod
 Version:       180.11.02
 # Taken over by kmodtool
-Release:       1%{?dist}.12
+Release:       1%{?dist}.13
 Summary:       NVIDIA display driver kernel module
 Group:         System Environment/Kernel
 License:       Redistributable, no modification permitted
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Aug 15 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 180.11.02-1.13
+- rebuild for new kernels
+
 * Tue Aug 04 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 180.11.02-1.12
 - rebuild for new kernels
 

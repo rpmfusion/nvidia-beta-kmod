@@ -3,12 +3,12 @@
 # "buildforkernels newest" macro for just that build; immediately after
 # queuing that build enable the macro again for subsequent builds; that way
 # a new akmod package will only get build when a new one is actually needed
-#define buildforkernels newest
+%define buildforkernels newest
 
 Name:          nvidia-beta-kmod
 Version:       180.11.02
 # Taken over by kmodtool
-Release:       1%{?dist}.19
+Release:       1%{?dist}.20
 Summary:       NVIDIA display driver kernel module
 Group:         System Environment/Kernel
 License:       Redistributable, no modification permitted
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Dec 12 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 180.11.02-1.20
+- rebuild for new kernel
+
 * Thu Dec 10 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 180.11.02-1.19
 - rebuild for new kernel
 
